@@ -4,6 +4,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using System.IO;
 
 namespace ConnectToMongodb.Droid
 {
@@ -16,7 +17,13 @@ namespace ConnectToMongodb.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
+            string dbname = "trader_alpha";
+
+            //string dbmongo = "mongodb+srv://server:serverKey@cluster0.9wiad.mongodb.net/Test?retryWrites=true&w=majority";
+            string dbmongo = "mongodb://server:serverKey@cluster0-shard-00-00.9wiad.mongodb.net:27017,cluster0-shard-00-01.9wiad.mongodb.net:27017,cluster0-shard-00-02.9wiad.mongodb.net:27017/Test?ssl=true&replicaSet=atlas-oqk7u2-shard-0&authSource=admin&retryWrites=true&w=majority";
+            string folderPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            string fullpath = Path.Combine(folderPath, dbname);
+            LoadApplication(new App(fullpath,dbmongo));
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
